@@ -17,6 +17,7 @@ public class API {
 	public static final int API_BANNED = 1;
 	public static final int API_USERNOTEXISTS = 2;
 	public static final int API_LOGINFAILED = 3;
+	public static final int API_BADARGUMENTS = 4;
 	public static final int API_UNKNOWNERROR = 10;
 	
 	private static API instance;
