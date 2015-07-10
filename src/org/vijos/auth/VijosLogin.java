@@ -44,13 +44,41 @@ public class VijosLogin extends JavaPlugin {
 		manager.registerEvents(new BlockListener(), this);
 		manager.registerEvents(new LoginListener(), this);
 	}
-	
-	public void sendLoginMessage(Player player) {
-		if (Sessions.i().loging.containsKey(player.getName().toLowerCase())) {
-			player.sendMessage(Messages.i().getMessage("Login.Ing"));
+		
+	public void sendMessage(Player player, String action) {
+		if (Sessions.i().get(player).isLoging()) {
+			player.sendMessage(Messages.i().get("Login.Ing"));
 			return;
 		}
-		player.sendMessage(Messages.i().getMessage("Login.Tip"));
+		player.sendMessage(Messages.i().get(action));
+	}
+	
+	public void sendLoginMessage(Player player) {
+		sendMessage(player, "Login.Tip");
+	}
+	
+	public void sendBlockBreakMessage(Player player) {
+		sendMessage(player, "Login.Block.Break");
+	}
+	
+	public void sendBlockPlaceMessage(Player player) {
+		sendMessage(player, "Login.Block.Place");
+	}
+	
+	public void sendDropItemMessage(Player player) {
+		sendMessage(player, "Login.Item.Drop");
+	}
+	
+	public void sendInteractMessage(Player player) {
+		sendMessage(player, "Login.Interact");
+	}
+	
+	public void sendMoveMessage(Player player) {
+		sendMessage(player, "Login.Move");
+	}
+	
+	public void sendPickupItemMessage(Player player) {
+		sendMessage(player, "Login.Item.Pickup");
 	}
 	
 	public void onDisable() {

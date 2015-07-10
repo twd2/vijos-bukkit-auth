@@ -16,8 +16,8 @@ public class BlockListener implements Listener {
 	public void onBlockBreak(BlockBreakEvent event) {
 		Player player = event.getPlayer();
 		if (player == null) return;
-		if (!Sessions.i().getLogin(player)) {
-			VijosLogin.i().sendLoginMessage(player);
+		if (!Sessions.i().get(player).isLoggedIn()) {
+			VijosLogin.i().sendBlockBreakMessage(player);
 			event.setCancelled(true);
 		}
 	}
@@ -26,8 +26,8 @@ public class BlockListener implements Listener {
 	public void onBlockPlace(BlockPlaceEvent event) {
 		Player player = event.getPlayer();
 		if (player == null) return;
-		if (!Sessions.i().getLogin(player)) {
-			VijosLogin.i().sendLoginMessage(player);
+		if (!Sessions.i().get(player).isLoggedIn()) {
+			VijosLogin.i().sendBlockPlaceMessage(player);
 			event.setCancelled(true);
 		}
 	}

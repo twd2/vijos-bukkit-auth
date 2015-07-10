@@ -26,18 +26,24 @@ public class Messages {
 	
 	public void loadConfig() {
 		this.config = YamlConfiguration.loadConfiguration(this.configFile);
-		this.config.addDefault("Message.Kick", "&a[Vijos]&f Please log in to continue.&f");
-		this.config.addDefault("Message.Ban", "&a[Vijos]&f You are banned.&f");
+		this.config.addDefault("Message.Kick", "&a[Vijos]&f Please login to continue.&f");
+		this.config.addDefault("Message.Banned", "&a[Vijos]&f You are banned.&f");
 		this.config.addDefault("Message.UserNotExists", "&a[Vijos]&f User isn't existed! Please use Vijos username.&f");
-		this.config.addDefault("Message.Permission", "&a[Vijos]&f &cYou havn't the permission to run this command.&f");
-		this.config.addDefault("Message.Login.Success", "&a[Vijos]&f &bLogin successfully.&f");
+		this.config.addDefault("Message.Permission", "&a[Vijos]&f &cYou don't have the permission to execute this command.&f");
+		this.config.addDefault("Message.Login.Block.Break", "&a[Vijos]&f &ePlease login to break the block.&f");
+		this.config.addDefault("Message.Login.Block.Place", "&a[Vijos]&f &ePlease login to place the block.&f");
+		this.config.addDefault("Message.Login.Success", "&a[Vijos]&f &bLogin success.&f");
 		this.config.addDefault("Message.Login.Start", "&a[Vijos]&f &bLogin in progress...&f");
 		this.config.addDefault("Message.Login.Ing", "&a[Vijos]&f &cPlease wait...&f");
+		this.config.addDefault("Message.Login.Interact", "&a[Vijos]&f &ePlease login to interact anything.&f");
+		this.config.addDefault("Message.Login.Item.Drop", "&a[Vijos]&f &ePlease login to drop the item.&f");
+		this.config.addDefault("Message.Login.Item.Pickup", "&a[Vijos]&f &ePlease login to pick up the item.&f");
+		this.config.addDefault("Message.Login.Move", "&a[Vijos]&f &ePlease login to move.&f");
 		this.config.addDefault("Message.Login.Fail", "&a[Vijos]&f &cWrong username or password!&f");
 		this.config.addDefault("Message.Login.Tip", "&a[Vijos]&f &ePlease use [/login password] to login&f");
 		this.config.addDefault("Message.Login.Welcome", "&a[Vijos]&f &eWelcome back!&f");
 		this.config.addDefault("Message.Login.In", "&a[Vijos]&f &cYou have already logged in.&f");
-		this.config.addDefault("Message.Logout.Success", "&a[Vijos]&f &bLogout successfully.&f");
+		this.config.addDefault("Message.Logout.Success", "&a[Vijos]&f &bLogout success.&f");
 		this.config.addDefault("Message.Logout.Fail", "&a[Vijos]&f &cYou haven't logged in.&f");
 		this.config.options().copyDefaults(true);
 		this.saveConfig();
@@ -49,7 +55,7 @@ public class Messages {
 		} catch (IOException e) {}
 	}
 	
-	public String getMessage(String action) {
+	public String get(String action) {
 		return this.config.getString("Message." + action).replaceAll("(&([a-f0-9]))", "\u00A7$2");
 	}
 	

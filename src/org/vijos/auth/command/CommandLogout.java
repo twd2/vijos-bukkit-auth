@@ -22,16 +22,16 @@ public class CommandLogout {
 		
 		if (args.length != 0) return false; 
 		
-		if (Sessions.i().getLogin(sender) == false){
-			sender.sendMessage(Messages.i().getMessage("Logout.Fail"));
+		if (!Sessions.i().get(player).isLoggedIn()){
+			sender.sendMessage(Messages.i().get("Logout.Fail"));
 			return true;
 		}
 		
-		Sessions.i().delLogin(sender);
-		sender.sendMessage(Messages.i().getMessage("Logout.Success"));
+		Sessions.i().del(player);
+		sender.sendMessage(Messages.i().get("Logout.Success"));
 		
 		if (Settings.i().getBoolean("Login.AtSpawn")) {
-			Sessions.i().locations.put(player.getName().toLowerCase(), player.getLocation());
+			Sessions.i().get(player).setLastLocation(player.getLocation());
 			player.teleport(player.getWorld().getSpawnLocation());
 		}
 		

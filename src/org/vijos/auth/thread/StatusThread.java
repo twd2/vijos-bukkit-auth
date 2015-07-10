@@ -17,26 +17,26 @@ public class StatusThread extends LoginThread {
 			return;
 		
 		if (!this.player.hasPermission("vijoslogin.login") && player.isOnline()) {
-			player.kickPlayer(Messages.i().getMessage("Login.Out"));
+			player.kickPlayer(Messages.i().get("Login.Out"));
 		}
 		
-		if (this.getLogin()) {
+		if (this.getStatus()) {
 			VijosLogin.i().sendLoginMessage(this.player);
 		}
 	}
 	
-	public boolean getLogin() {
+	public boolean getStatus() {
 		int line = API.i().getStatus(this.username, this.player);
 		
-		if (line == 0)
+		if (line == API.API_SUCCESS)
 			return true;
 		
-		if (line == 1) {
-			this.player.kickPlayer(Messages.i().getMessage("Ban"));
+		if (line == API.API_BANNED) {
+			this.player.kickPlayer(Messages.i().get("Banned"));
 			return false;
 		}
 		
-		this.player.kickPlayer(Messages.i().getMessage("UserNotExists"));
+		this.player.kickPlayer(Messages.i().get("UserNotExists"));
 		return false;
 	}
 }

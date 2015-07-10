@@ -13,6 +13,12 @@ import org.vijos.auth.thread.LoginThread;
 
 public class API {
 	
+	public static final int API_SUCCESS = 0;
+	public static final int API_BANNED = 1;
+	public static final int API_USERNOTEXISTS = 2;
+	public static final int API_LOGINFAILED = 3;
+	public static final int API_UNKNOWNERROR = 10;
+	
 	private static API instance;
 	
 	private String statusURI;
@@ -22,7 +28,7 @@ public class API {
 		return API.instance;
 	}
 	
-	public API () {
+	public API() {
 		API.instance = this;
 		
 		this.statusURI = Settings.i().getString("API.StatusURI");
@@ -30,24 +36,24 @@ public class API {
 	}
 	
 	public void login(Player player, String password) {
-		if (Sessions.i().getLogin(player)) {
-			player.sendMessage(Messages.i().getMessage("Login.In"));
+		if (Sessions.i().get(player).isLoggedIn()) {
+			player.sendMessage(Messages.i().get("Login.In"));
 			return;
 		}
 		
-		String playername = player.getName().toLowerCase();
+		String playerName = player.getName().toLowerCase();
 		
-		if (Sessions.i().loging.containsKey(playername)) {
-			player.sendMessage(Messages.i().getMessage("Login.Ing"));
+		if (Sessions.i().get(player).isLoging()) {
+			player.sendMessage(Messages.i().get("Login.Ing"));
 			return;
 		}
 		
-		new LoginThread(playername, password, VijosLogin.i(), player, true);
-		player.sendMessage(Messages.i().getMessage("Login.Start"));
+		new LoginThread(playerName, password, VijosLogin.i(), player, true);
+		player.sendMessage(Messages.i().get("Login.Start"));
 	}
 	
 	public int getStatus(String username, Player player) {
-		int line = 10;
+		int line = API_UNKNOWNERROR;
 		
 		try {
 			String dataPost = "username=" + URLEncoder.encode(username, "UTF-8");
@@ -59,7 +65,7 @@ public class API {
 	}
 
 	public int getLogin(String username, String password) {
-		int line = 10;
+		int line = API_UNKNOWNERROR;
 		
 		try {
 			String dataPost = "username=" + URLEncoder.encode(username, "UTF-8") + "&hash=" + password;

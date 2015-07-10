@@ -24,11 +24,11 @@ public class CommandLogin {
 		String password = args[0];
 		
 		if (password == null || password.trim().equals("")) {
-			VijosLogin.i().sendLoginMessage(player);
+			VijosLogin.i().sendLoginMessage((Player)player);
 			return false;
 		}
 		
-		API.i().login(player, password);
+		API.i().login((Player)player, password);
 		
 		return true;
 	}

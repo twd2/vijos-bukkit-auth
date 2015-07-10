@@ -8,6 +8,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import org.vijos.auth.VijosLogin;
+import org.vijos.auth.data.PlayerSession;
 import org.vijos.auth.data.Settings;
 import org.vijos.auth.data.Sessions;
 import org.vijos.auth.thread.StatusThread;
@@ -23,7 +24,7 @@ public class LoginListener implements Listener {
 		final Player player = event.getPlayer();
 		
 		if (Settings.i().getBoolean("Login.AtSpawn")) {
-			Sessions.i().locations.put(player.getName().toLowerCase(), player.getLocation());
+			Sessions.i().get(player).setLastLocation(player.getLocation());
 			player.teleport(player.getWorld().getSpawnLocation());
 		}
 		
@@ -33,14 +34,12 @@ public class LoginListener implements Listener {
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onPlayerQuit(PlayerQuitEvent event) {
 		final Player player = event.getPlayer();
+		final PlayerSession session = Sessions.i().get(player);
 		
-		if (!Sessions.i().getLogin(player) && Sessions.i().locations.containsKey(player.getName().toLowerCase()))
-			player.teleport(Sessions.i().locations.get(player.getName().toLowerCase()));
-		
-		if (Sessions.i().locations.containsKey(player.getName().toLowerCase()))
-			Sessions.i().locations.remove(player.getName().toLowerCase());
-		
-		Sessions.i().delLogin(player);
+		if (!session.isLoggedIn() && session.getLastLocation() != null)
+			player.teleport(session.getLastLocation());
+
+		Sessions.i().del(player);
 	}
 	
 }

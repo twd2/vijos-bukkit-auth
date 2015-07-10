@@ -3,6 +3,7 @@ package org.vijos.auth.thread;
 import org.bukkit.entity.Player;
 
 import org.vijos.auth.VijosLogin;
+import org.vijos.auth.data.PlayerSession;
 import org.vijos.auth.data.Sessions;
 import org.vijos.auth.data.Messages;
 import org.vijos.auth.data.Settings;
@@ -35,23 +36,25 @@ public class LoginThread extends Thread {
 			return;
 		
 		if (this.getLogin()) {
-			Sessions.i().setLogin(this.player);
-			this.player.sendMessage(Messages.i().getMessage("Login.Success"));
-			ConsoleLogger.i().info(player.getName() + "[" + player.getAddress().getAddress().getHostAddress() + "] logged in");
+			PlayerSession session = Sessions.i().get(this.player);
+			if (session.getLastLocation() != null)
+				player.teleport(session.getLastLocation());
+			session.setLoggedIn(true);
+			session.setLoginState(System.currentTimeMillis());
+			this.player.sendMessage(Messages.i().get("Login.Success"));
+			ConsoleLogger.i().info(player.getName() + "[" + player.getAddress().getAddress().getHostAddress() + "] logged in.");
+		} else {
+			this.player.sendMessage(Messages.i().get("Login.Fail"));
 		}
 	}
 	
 	public boolean getLogin() {
 		int line = API.i().getLogin(this.username, this.password);
 		
-		if (line == 0) {
-			if (Sessions.i().locations.containsKey(this.username))
-				player.teleport(Sessions.i().locations.get(username));
-			
+		if (line == API.API_SUCCESS) {
 			return true;
 		}
 		
-		this.player.sendMessage(Messages.i().getMessage("Login.Fail"));
 		return false;
 	}
 }
