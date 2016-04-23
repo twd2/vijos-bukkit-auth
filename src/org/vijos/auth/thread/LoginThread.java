@@ -49,7 +49,7 @@ public class LoginThread extends Thread {
 	}
 	
 	public boolean getLogin() {
-		int line = API.i().getLogin(this.username, this.password);
+		int line = API.i().getLogin(this.username, this.password, this.player.getAddress().getAddress().getHostAddress());
 		
 		if (line == API.API_SUCCESS) {
 			return true;

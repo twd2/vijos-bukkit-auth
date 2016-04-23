@@ -65,11 +65,11 @@ public class API {
 		return line;
 	}
 
-	public int getLogin(String username, String password) {
+	public int getLogin(String username, String password, String ip) {
 		int line = API_UNKNOWNERROR;
 		
 		try {
-			String dataPost = "username=" + URLEncoder.encode(username, "UTF-8") + "&hash=" + password;
+			String dataPost = "username=" + URLEncoder.encode(username, "UTF-8") + "&hash=" + password + "&ip=" + URLEncoder.encode(ip, "UTF-8");
 			
 			line = Integer.parseInt(Sender.Post(this.loginURI, dataPost));
 		} catch (IOException exception) {}
